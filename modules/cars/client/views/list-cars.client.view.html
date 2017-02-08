@@ -1,0 +1,82 @@
+<div layout="row" layout-align="center">
+  <md-toolbar class="md-table-toolbar" layout="row" layout-align="center">
+    <div class="sub-head-container" layout="row"  layout-align="start center" flex="85">
+      <div class="md-toolbar-tools">
+        <span>Voitures</span>
+      </div>
+    </div>
+  </md-toolbar>
+</div>
+<div class="list-group" layout="column" layout-align="center">
+
+  <!--
+    <a ng-repeat="car in vm.cars" ui-sref="cars.view({ carId: car._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="car.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="car.user" ng-bind="car.user.displayName"></span>
+        <span ng-if="!car.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="car.title"></h4>
+      <p class="list-group-item-text" ng-bind="car.content"></p>
+    </a>
+  -->
+
+  <div class="ordering" layout="row" layout-xs="column" layout-align="center" flex="85" layout-margin>
+    
+    <md-input-container hide-xs hide-sm>
+     <input type="number" min="0" ng-model="minPower" ng-change="myFunction()" name="" placeholder="Puissance Minimale"> 
+    </md-input-container>
+    
+    <md-input-container hide-xs hide-sm>
+      <input type="number" min="0" ng-model="maxPower" ng-change="myFunction()" name="" placeholder="Puissance Maximale">
+    </md-input-container>
+    
+    <md-input-container>
+      <label>Marks</label>
+      <md-select ng-model="marktype" multiple>
+        <md-option ng-value="mark.name" ng-repeat="mark in vm.marks | orderBy:'name'">{{ mark.name }}</md-option>
+      </md-select>
+    </md-input-container>
+    
+    <md-input-container hide-xs hide-sm>
+      <label>Fuel</label>
+      <md-select ng-model="carfuel" multiple>
+        <md-option value="Electrique">Electrique</md-option>
+        <md-option value="Diesel">Diesel</md-option>
+        <md-option value="Essence">Essence</md-option>
+        <md-option value="GPL">GPL</md-option>
+        <md-option value="Hybride">Hybride</md-option>
+      </md-select>
+    </md-input-container>
+  
+  </div>
+
+  <div layout="row" layout-align="center" layout-margin>
+    <md-table-container flex="85">
+      <table md-table md-row-select ng-model="selected">
+        <thead md-head md-order="vm.orderBy">
+          <tr md-row>
+            <th hide-xs hide-sm></th>
+            <th md-order-by="mark.name" md-column>Mark</th>
+            <th md-order-by="model" md-column>Model</th>
+            <th md-order-by="power" md-column hide-xs hide-sm>Power (ch)</th>
+            <th md-order-by="fuel" md-column hide-xs hide-sm>Fuel</th>
+            <th hide-xs hide-sm></th>
+          </tr>
+        </thead>
+         <tbody md-body>
+          <tr ng-click="vm.showAdvanced($event)" md-row ng-repeat="car in vm.cars | orderBy:vm.orderBy" ng-show="(minPower <=  car.power || !minPower) && (maxPower >= car.power || !maxPower) && (marktype.indexOf(car.mark.name) !== -1 || marktype.length === 0 ) && (carfuel.indexOf(car.fuel) !== -1 || carfuel.length === 0)">
+            <td md-cell class="car" hide-xs hide-sm><img src="{{ car.imageURL }}" width="130px"></td>
+            <td md-cell>{{ car.mark.name }}</td>
+            <td md-cell>{{ car.model }}</td>
+            <td md-cell hide-xs hide-sm>{{ car.power }}</td>
+            <td md-cell hide-xs hide-sm>{{ car.fuel }}</td>
+            <td md-cell hide-xs hide-sm><a ng-click="vm.generatePdf(car)"><img width="42" src="/modules/cars/client/img/logos/pdf.svg"></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+  </div> 
+</div>

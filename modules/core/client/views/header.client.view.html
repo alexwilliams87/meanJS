@@ -1,0 +1,116 @@
+<!-- topbar si desktop -->   
+<div class="topbar" ng-controller="HeaderController as vm" hide-xs layout="row" layout-align="center">
+  <div class="main-container" flex="85">
+
+    <div layout="row" class="topbar-inner">
+
+      <nav flex layout="row" layout-align="start" class="nav-left" ng-if="vm.menu.shouldRender(vm.authentication.user);">
+
+        <div ng-repeat="item in vm.menu.items | orderBy: 'position'">
+
+                   
+          <dropdown ng-if="item.type == 'dropdown'" mode="hover">
+            <md-button>{{ item.title }}</md-button>
+            <dropdown-content>
+              <a ng-repeat="subitem in item.items | orderBy: 'position'" ui-sref="{{subitem.state}}({{subitem.params}})" ng-bind="subitem.title"></a>
+            </dropdown-content>
+          </dropdown>
+
+          
+        </div>
+
+        
+<!--           <a ui-sref="{{item.state}}" ng-if="item.type == 'item'">
+            <md-button>{{ ::item.title }}</md-button>
+          </a>
+          <div class="dropdown" ng-if="item.type == 'dropdown'">
+            <md-button>{{ ::item.title }}</md-button>
+            <div class="dropdown-content">
+              <a ui-sref="{{subitem.state}}({{subitem.params}})" ng-repeat="subitem in item.items | orderBy: 'position'" ng-bind="subitem.title"></a>
+            </div>
+          </div>
+        </div> -->
+      </nav>
+
+      <nav flex layout="row" layout-align="end" class="nav-right" ng-hide="vm.authentication.user">
+        <md-button ui-sref="authentication.signup" ui-sref-active="active" class="md-raised md-primary">Sign Up</md-button>
+        <md-button ui-sref="authentication.signin" ui-sref-active="active" class="md-raised md-primary">Sign In</md-button>
+      </nav>
+
+      <nav flex layout="row" layout-align="end" class="nav-left" ng-show="vm.authentication.user">
+        <md-menu md-offset="0 56">
+          <a class="md-button" layout="row" ng-click="$mdOpenMenu($event)">
+            <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
+            <span ng-bind="vm.authentication.user.displayName"></span><i class="material-icons">expand_more</i>
+          </a>
+
+          <md-menu-content width="6">
+            <md-menu-item ng-repeat="item in vm.accountMenu.items">
+              <md-button ui-sref="{{item.state}}" ng-bind="item.title"></md-button>
+            </md-menu-item>
+            <md-button class="signout" href="/api/auth/signout" target="_self">Signout</md-button>
+          </md-menu-content>
+        </md-menu>
+      </nav>
+    
+    </div>
+
+  </div>
+</div>
+
+
+<!-- topbar si mobile -->   
+<div class="topbar" ng-controller="HeaderController as vm" hide-gt-xs layout="row" layout-align="center">
+  <div class="main-container" flex="85">
+    <div layout="row" class="topbar-inner">
+      <nav flex layout="row" layout-align="start" class="nav-left" ng-if="vm.menu.shouldRender(vm.authentication.user);" flex="85">
+        <div class="button-menu" layout="row" layout-align="start center" hide-gt-xs ng-click="vm.menuOpen = !vm.menuOpen">
+          <a><i class="material-icons">menu</i></a>
+        </div>
+      </nav>
+
+      <nav flex layout="row" layout-align="end" class="nav-right" ng-hide="vm.authentication.user">
+        <md-button ui-sref="authentication.signup" ui-sref-active="active" class="md-raised md-primary">Sign Up</md-button>
+        <md-button ui-sref="authentication.signin" ui-sref-active="active" class="md-raised md-primary">Sign In</md-button>
+      </nav>
+
+      <nav flex layout="row" layout-align="end" class="nav-left" ng-show="vm.authentication.user">
+        <md-menu md-offset="0 56">
+          <a class="md-button" layout="row" ng-click="$mdOpenMenu($event)">
+            <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
+            <i class="material-icons">expand_more</i>
+          </a>
+
+          <md-menu-content width="6">
+            <md-menu-item ng-repeat="item in vm.accountMenu.items">
+              <md-button ui-sref="{{item.state}}" ng-bind="item.title"></md-button>
+            </md-menu-item>
+            <md-button class="signout" href="/api/auth/signout" target="_self">Signout</md-button>
+          </md-menu-content>
+        </md-menu>
+      </nav>
+    </div>
+
+    <div class="menu-mobile" ng-class="{active: vm.menuOpen}" layout="column">
+      <ul ng-repeat="item in vm.menu.items | orderBy: 'position'" flex="85">
+        <li>
+          <div class="dropdown-mobile" ng-if="item.type == 'dropdown'" dropdown mode="click">
+            <a layout="row" class="dropdown-mobile-button md-button">
+              <span ng-bind="item.title"></span>
+              <i class="material-icons">arrow_drop_down</i>
+            </a>
+            <dropdown-content>
+              <a ng-repeat="subitem in item.items | orderBy: 'position'" ui-sref="{{subitem.state}}({{subitem.params}})" ng-bind="subitem.title"></a>
+            </dropdown-content>
+          </div>
+          <a ui-sref="{{item.state}}" ng-if="item.type == 'item'">
+            <md-button class="dropdown-mobile-button">{{ ::item.title }}</md-button>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="banner"></div>

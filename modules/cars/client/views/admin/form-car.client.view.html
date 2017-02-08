@@ -1,0 +1,78 @@
+<md-toolbar class="md-table-toolbar" flex>
+  <div class="sub-head-container" layout="row"  layout-align="start center">
+    <div class="md-toolbar-tools">
+      <span>{{vm.car._id ? 'Editer une voiture existante' : 'Créer une voiture'}}</span>
+    </div>
+  </div>
+</md-toolbar>
+
+<div class="list-group">
+  <form name="vm.form.carForm" class="form-horizontal" ng-submit="vm.save(vm.form.carForm.$valid)" novalidate>
+    <fieldset layout="column">
+      <md-input-container>
+        <label class="control-label" for="mark">Mark</label>
+        <md-select ng-model="vm.car.mark" id="mark" class="form-control" required>
+  
+          <md-option ng-repeat="mark in vm.marks | orderBy:'name'" value="{{ mark._id }}">{{ mark.name }}</md-option>
+
+        </md-select>
+
+        <!-- {{ vm.car }} -->
+        <div ng-messages="vm.form.carForm.mark.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Car mark is required.</p>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <label class="control-label" for="model">Model</label>
+        <input name="model" type="text" ng-model="vm.car.model" id="model" class="form-control" placeholder="Model" required autofocus>
+        <div ng-messages="vm.form.carForm.model.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Car model is required.</p>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <label class="control-label" for="power">Power (ch)</label>
+        <input name="power" type="number" ng-model="vm.car.power" id="power" class="form-control" placeholder="Power" required>
+        <div ng-messages="vm.form.carForm.power.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Car power is required.</p>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <label class="control-label" for="fuel">Fuel</label>
+        <md-select name="fuel" type="text" ng-model="vm.car.fuel" id="fuel" class="form-control" required autofocus>
+          <md-option value="Electrique">Electrique</md-option>
+          <md-option value="Diesel">Diesel</md-option>
+          <md-option value="Essence">Essence</md-option>
+          <md-option value="GPL">GPL</md-option>
+          <md-option value="Hybride">Hybride</md-option>
+        </md-select>
+        <div ng-messages="vm.form.carForm.fuel.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Car fuel is required.</p>
+        </div>
+        </md-input-container>
+
+        <md-input-container>
+        <div class="form-group text-center">
+          <img ngf-src="vm.fileSelected ? vm.carFileImage : '' + vm.car.imageURL" alt="{{vm.car.name}}" class="img-thumbnail user-profile-picture" ngf-drop>
+        </div>
+        <div ng-show="vm.loading" class="form-group text-center">
+          <img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading image...">
+        </div>
+        <div ng-show="!vm.fileSelected" class="text-center form-group">
+          <md-button class="md-raised" ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="vm.carFileImage" accept="image/*" ngf-before-model-change="vm.loading = true" ngf-resize="{width: 400}" ngf-resize-if="$width > 400 || $height > 400">Select Picture</md-button>
+        </div>
+        <div ng-show="vm.fileSelected" class="progress text-center">
+          <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{vm.progress}}%" ng-bind="vm.progress + '%'">
+            <span class="sr-only">{{vm.progress}}% Complete</span>
+          </div>
+        </div>
+      </md-input-container>
+
+      <div class="form-group">
+        <md-button class="md-raised" type="submit" class="btn btn-default">{{vm.car._id ? 'Update' : 'Create'}}</md-button>
+      </div>      
+    </fieldset>
+  </form>
+</div>

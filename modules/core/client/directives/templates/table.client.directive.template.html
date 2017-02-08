@@ -1,0 +1,16 @@
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th ng-repeat="(key,value) in headers"> <!-- EN-TETES --> {{ key }} </th>
+			</tr>
+		</thead>
+		<tbody>
+		<!-- on itère les items dans data (récupéré dans la base) --> 
+			<tr ng-repeat="item in data">
+			<!-- on itère les fields dans headers (les values uniquement) puis on récupère les field de item -->
+				<td ng-repeat="field in headers"> {{ item[field] }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

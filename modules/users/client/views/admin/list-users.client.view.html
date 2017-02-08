@@ -1,0 +1,20 @@
+<md-toolbar class="md-table-toolbar">
+  <div class="sub-head-container" layout="row" layout-align="start center">
+    <div class="md-toolbar-tools">
+      <span>Users</span>
+    </div>
+  </div>
+</md-toolbar>
+  <div class="list-group">
+    <md-input-container class="search">
+      <input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.figureOutItemsToDisplay()" />
+    </md-input-container>
+    <a ng-repeat="user in vm.pagedItems" ui-sref="admin.user({userId: user._id})" class="list-group-item">
+      <h4 class="list-group-item-heading" ng-bind="user.username"></h4>
+      <p class="list-group-item-text pull-right small" ng-bind="user.roles"></p>
+      <p class="list-group-item-text" ng-bind="user.email"></p>
+    </a>
+
+    <uib-pagination layout="row" layout-align="space-around" boundary-links="true" max-size="8" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
+
+  </div>

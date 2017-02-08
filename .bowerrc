@@ -1,0 +1,6 @@
+{
+  "directory": "public/lib",
+  "interactive": false,
+  "proxy": "http://10.127.254.1:80",
+  "https-proxy":"http://10.127.254.1:80"
+}
